@@ -1,6 +1,6 @@
 # Agent instructions
 
-See [README.md](README.md) for setup, usage, and feed behavior.
+See [README.md](README.md) for the project overview and subscription links.
 
 - Keep parsing, deduplication, and RSS rendering pure. Inject network access
   through the pipeline's `http` callable; keep TLDR-specific URLs and HTML
