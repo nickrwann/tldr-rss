@@ -88,9 +88,12 @@ def _feed_definitions(config: Config) -> list[FeedDefinition]:
     for source in config.sources:
         feeds.append((f"{source.slug}.xml", source.name, f"{source.name}, one item per article", frozenset({source.slug})))
     names = {s.slug: s.name for s in config.sources}
-    for bundle, members in config.bundles.items():
+    for bundle, members in sorted(config.bundles.items()):
         listed = ", ".join(names[m] for m in members)
-        feeds.append((f"{bundle}.xml", f"TLDR {bundle}", f"{listed}, one item per article, duplicates removed", frozenset(members)))
+        label = " ".join(word.upper() if word.lower() in {"ai", "ml"} else
+                         word.lower() if word.lower() == "and" else word.capitalize()
+                         for word in bundle.replace("_", "-").split("-"))
+        feeds.append((f"{bundle}.xml", f"TLDR {label}", f"{listed}, one item per article, duplicates removed", frozenset(members)))
     return feeds
 
 

@@ -14,7 +14,7 @@ def test_repo_feeds_toml_loads_all_sources():
     assert len(slugs) == 13
     assert config.window_days == 14
     assert config.site_url == "https://nickrwann.github.io/tldr-rss"
-    assert set(config.bundles["engineering"]) <= set(slugs)
+    assert set(config.bundles["tech-engineering-and-security"]) <= set(slugs)
 
 
 def test_minimal_config_uses_defaults():

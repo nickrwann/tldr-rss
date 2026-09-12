@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 from datetime import date
 from pathlib import Path
 
-from tldr_rss.config import parse_config
+from tldr_rss.config import load_config, parse_config
 from tldr_rss.pipeline import run, write_outputs
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -72,3 +72,19 @@ def test_write_outputs_produces_all_per_source_bundle_json_and_index(tmp_path):
 
     index = (tmp_path / "index.html").read_text(encoding="utf-8")
     assert 'href="all.xml"' in index and 'href="ml.xml"' in index
+
+
+def test_configured_bundles_render_selected_articles_and_readable_titles(tmp_path):
+    config = load_config(Path(__file__).resolve().parent.parent / "feeds.toml")
+    articles = run(CONFIG, fake_http, today=TODAY)
+    write_outputs(articles, config, tmp_path)
+
+    for bundle, members in config.bundles.items():
+        channel = ET.parse(tmp_path / f"{bundle}.xml").getroot().find("channel")
+        expected = [a.title for a in articles if a.source.slug in members]
+        assert [item.findtext("title") for item in channel.findall("item")] == expected
+
+    ai = ET.parse(tmp_path / "ai-and-data.xml").getroot()
+    assert ai.findtext("channel/title") == "TLDR AI and Data"
+    software = ET.parse(tmp_path / "software-development.xml").getroot()
+    assert software.findtext("channel/title") == "TLDR Software Development"

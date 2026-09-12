@@ -23,8 +23,15 @@ overlap with each other and with individual feeds.
 | Feed URL (append to `https://nickrwann.github.io/tldr-rss/`) | Covers |
 | --- | --- |
 | `all.xml` | Every newsletter |
-| `engineering.xml` | Tech, AI, Web Dev, DevOps, Hardware, InfoSec, Data |
-| `nick.xml` | Nick's selection: Tech, AI, Web Dev, DevOps, Hardware, Data |
+| `ai-and-data.xml` | AI and Data |
+| `finance-and-crypto.xml` | Fintech and Crypto |
+| `infrastructure-and-security.xml` | DevOps, Hardware, InfoSec |
+| `product-development.xml` | Web Dev, Design, Product |
+| `software-development.xml` | Web Dev and DevOps |
+| `startups-and-growth.xml` | Founders, Product, Marketing |
+| `tech-and-engineering.xml` | Tech, AI, Web Dev, DevOps, Hardware, Data |
+| `tech-engineering-and-security.xml` | Tech, AI, Web Dev, DevOps, Hardware, InfoSec, Data |
+| `technology-overview.xml` | Tech: a general technology overview |
 | `tech.xml` | TLDR Tech |
 | `ai.xml` | TLDR AI |
 | `dev.xml` | TLDR Web Dev |
