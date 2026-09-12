@@ -58,7 +58,7 @@ Rules that keep it simple:
 - Python 3.11+, standard library first. Runtime deps: `beautifulsoup4` only.
   Config is TOML (stdlib `tomllib`). No new dependency without the reason in
   the commit message.
-- Tests: `pytest`. Parser tests run against real saved pages in
+- Tests: `pytest`, run as `python -m pytest`. Parser tests run against real saved pages in
   `tests/fixtures/`. Never mock BeautifulSoup; only ever fake the `http` port.
 - Type hints everywhere. Frozen dataclasses for data. No classes for behaviour
   unless state genuinely has to be carried.
@@ -72,7 +72,7 @@ Rules that keep it simple:
   amend into the feature commit if it hasn't been pushed yet.
 - Commit message: imperative subject under 72 chars, blank line, then a short
   paragraph on *why* when the subject isn't self-evident.
-- `pytest` must pass before every commit. Run
+- `python -m pytest` must pass before every commit. Run
   `python -m tldr_rss --out public/` against the live site before touching
   `tldr.py`, the workflow, or the README.
 - Generated output (`public/`) is never committed; the workflow builds and
@@ -82,6 +82,6 @@ Rules that keep it simple:
 
 ```
 pip install -e ".[dev]"            # install package + pytest
-pytest                             # run tests
+python -m pytest                   # run tests
 python -m tldr_rss --out public/   # generate feeds locally
 ```
