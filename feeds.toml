@@ -60,3 +60,4 @@ name = "TLDR Crypto"
 # Named subsets. Each becomes <name>.xml. all.xml and <slug>.xml are implicit.
 [bundles]
 engineering = ["tech", "ai", "dev", "devops", "hardware", "infosec", "data"]
+nick = ["tech", "ai", "dev", "devops", "hardware", "data"]

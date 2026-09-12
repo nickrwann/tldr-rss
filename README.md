@@ -16,13 +16,15 @@ https://nickrwann.github.io/tldr-rss/all.xml
 In NetNewsWire: **File → New Feed** (Mac) or the **+** button (iOS), paste
 the URL, and tap **Add**.
 
-Want only some newsletters? Subscribe to these instead. You can add more than
-one; each story still appears only once across them.
+Want only some newsletters? Subscribe to a bundle or individual feeds below.
+Individual newsletter feeds do not overlap with one another, but bundles can
+overlap with each other and with individual feeds.
 
 | Feed URL (append to `https://nickrwann.github.io/tldr-rss/`) | Covers |
 | --- | --- |
 | `all.xml` | Every newsletter |
 | `engineering.xml` | Tech, AI, Web Dev, DevOps, Hardware, InfoSec, Data |
+| `nick.xml` | Nick's selection: Tech, AI, Web Dev, DevOps, Hardware, Data |
 | `tech.xml` | TLDR Tech |
 | `ai.xml` | TLDR AI |
 | `dev.xml` | TLDR Web Dev |
