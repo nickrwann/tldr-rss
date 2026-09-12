@@ -1,39 +1,51 @@
 # tldr-rss
 
-Per-article RSS feeds for the [TLDR](https://tldr.tech) newsletters, with
-stories that appear in several newsletters shown once and sponsor items
-removed. Rebuilt every three hours by GitHub Actions and served from GitHub
-Pages. No server, no database.
+RSS feeds for the [TLDR](https://tldr.tech) newsletters with one item per
+article instead of one item per issue. Stories that appear in several
+newsletters show up once, and sponsor items are removed. Rebuilt every three
+hours and served as plain files from GitHub Pages.
 
 ## Subscribe
 
-Base URL: `https://nickrwann.github.io/tldr-rss/`
+Add this URL to your RSS reader:
 
-| Feed                | What's in it                                                     |
-| ------------------- | ---------------------------------------------------------------- |
-| `all.xml`           | Every newsletter, one item per article, deduped across all of them |
-| `engineering.xml`   | Tech, AI, Web Dev, DevOps, Hardware, InfoSec, Data                |
-| `tech.xml`          | TLDR Tech only                                                    |
-| `ai.xml`, `dev.xml`, `devops.xml`, `hardware.xml`, `infosec.xml`, `data.xml`, `design.xml`, `product.xml`, `founders.xml`, `marketing.xml`, `fintech.xml`, `crypto.xml` | One newsletter each |
-| `articles.json`     | The same articles as data, for anything that isn't an RSS reader  |
+```
+https://nickrwann.github.io/tldr-rss/all.xml
+```
 
-Dedupe is global: a story linked from Tech and DevOps appears in `all.xml`
-once and in `tech.xml` only, because Tech is listed first in `feeds.toml`.
-So subscribing to several per-source feeds still gives you each story once.
+In NetNewsWire: **File → New Feed** (Mac) or the **+** button (iOS), paste
+the URL, and tap **Add**.
 
-Each item links to the article itself (tracking parameters stripped), keeps
-TLDR's title and blurb, and ends with a link back to the issue it came from.
+Want only some newsletters? Subscribe to these instead. You can add more than
+one; each story still appears only once across them.
 
-## Configure
+| Feed URL (append to `https://nickrwann.github.io/tldr-rss/`) | Covers |
+| --- | --- |
+| `all.xml` | Every newsletter |
+| `engineering.xml` | Tech, AI, Web Dev, DevOps, Hardware, InfoSec, Data |
+| `tech.xml` | TLDR Tech |
+| `ai.xml` | TLDR AI |
+| `dev.xml` | TLDR Web Dev |
+| `devops.xml` | TLDR DevOps |
+| `hardware.xml` | TLDR Hardware |
+| `infosec.xml` | TLDR InfoSec |
+| `data.xml` | TLDR Data |
+| `design.xml` | TLDR Design |
+| `product.xml` | TLDR Product |
+| `founders.xml` | TLDR Founders |
+| `marketing.xml` | TLDR Marketing |
+| `fintech.xml` | TLDR Fintech |
+| `crypto.xml` | TLDR Crypto |
 
-Everything lives in [`feeds.toml`](feeds.toml):
+Every item links straight to the article, keeps TLDR's title and summary, and
+ends with a link back to the issue it came from. `articles.json` at the same
+base URL has the same articles as data.
 
-- **Sources**: one `[[sources]]` block per newsletter. Order is priority when
-  the same story appears in several. Delete a block to stop fetching it.
-- **Bundles**: named subsets under `[bundles]`. Each becomes `<name>.xml`.
-- **`window_days`**: how many days of issues to include (default 14).
+## Change what gets generated
 
-Push the change; the next scheduled run picks it up.
+Edit [`feeds.toml`](feeds.toml): add or remove a newsletter, reorder them to
+change which one "owns" a shared story, or define a bundle. Push to `main`
+and the next run picks it up.
 
 ## Run locally
 
@@ -43,24 +55,10 @@ python -m pytest
 python -m tldr_rss --out public/ --window-days 3 --verbose
 ```
 
-`public/` is git-ignored; the workflow builds and deploys it.
+## Host your own
 
-## How it works
+1. Fork this repo and set `site_url` in `feeds.toml` to your Pages URL.
+2. In the repo settings, set **Pages → Source** to **GitHub Actions**.
+3. Run the **Publish feeds** workflow once from the Actions tab.
 
-See [`CLAUDE.md`](CLAUDE.md) for the architecture (functional core,
-imperative shell) and the rules that keep it simple. In short: fetch each
-newsletter's own RSS feed to find recent issue pages, parse every story out of
-each page, drop sponsors, collapse duplicates by canonical URL, render RSS.
-
-## Deploying your own copy
-
-1. Fork, and change `site_url` in `feeds.toml` to your Pages URL.
-2. In the repository settings, set **Pages → Source** to **GitHub Actions**.
-3. Run the *Publish feeds* workflow once from the Actions tab.
-
-## Filtering on the reader side
-
-RSS readers fetch static files, so a query string like `?sources=tech,ai`
-cannot change what GitHub Pages returns. If you ever want request-time
-filtering, a small edge function (for example a Cloudflare Worker) can render
-RSS from `articles.json` on demand without touching this generator.
+How it works and why it is built this way: see [`CLAUDE.md`](CLAUDE.md).
