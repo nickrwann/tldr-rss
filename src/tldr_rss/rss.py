@@ -23,6 +23,12 @@ def render_rss(articles: list[Article], title: str, description: str, site_url: 
     _child(channel, "link", site_url)
     _child(channel, "description", description)
     _child(channel, "language", "en")
+    image = ET.SubElement(channel, "image")
+    _child(image, "url", f"{site_url.rstrip('/')}/icon.png")
+    _child(image, "title", title)
+    _child(image, "link", site_url)
+    _child(image, "width", "144")
+    _child(image, "height", "144")
     ET.SubElement(channel, f"{{{ATOM_NS}}}link", href=self_url, rel="self", type="application/rss+xml")
     for article in articles:
         channel.append(_item(article))

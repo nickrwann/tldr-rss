@@ -55,7 +55,8 @@ def test_run_skips_a_source_whose_feed_fails(caplog):
 def test_write_outputs_produces_all_per_source_bundle_json_and_index(tmp_path):
     articles = run(CONFIG, fake_http, today=TODAY)
     written = write_outputs(articles, CONFIG, tmp_path)
-    assert {p.name for p in written} == {"all.xml", "tech.xml", "ai.xml", "devops.xml", "ml.xml", "articles.json", "index.html"}
+    assert {p.name for p in written} == {"all.xml", "tech.xml", "ai.xml", "devops.xml", "ml.xml", "articles.json", "index.html", "icon.png"}
+    assert (tmp_path / "icon.png").read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
 
     def items(name):
         return ET.parse(tmp_path / name).getroot().findall("channel/item")
@@ -72,6 +73,7 @@ def test_write_outputs_produces_all_per_source_bundle_json_and_index(tmp_path):
 
     index = (tmp_path / "index.html").read_text(encoding="utf-8")
     assert 'href="all.xml"' in index and 'href="ml.xml"' in index
+    assert 'rel="icon"' in index and 'href="icon.png"' in index
 
 
 def test_configured_bundles_render_selected_articles_and_readable_titles(tmp_path):

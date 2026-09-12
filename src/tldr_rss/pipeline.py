@@ -9,6 +9,7 @@ import logging
 from collections.abc import Callable
 from datetime import date, timedelta
 from html import escape
+from importlib.resources import files
 from pathlib import Path
 
 from .config import Config
@@ -58,7 +59,7 @@ def _articles_for_source(source: Source, http: Http, cutoff: date) -> list[Artic
 
 
 def write_outputs(articles: list[Article], config: Config, out_dir: Path) -> list[Path]:
-    """Write every feed, articles.json, and index.html into `out_dir`; return the paths."""
+    """Write feeds, article data, the index, and its icon; return their paths."""
     out_dir.mkdir(parents=True, exist_ok=True)
     feeds = _feed_definitions(config)
     written = []
@@ -75,6 +76,9 @@ def write_outputs(articles: list[Article], config: Config, out_dir: Path) -> lis
     index_path = out_dir / "index.html"
     index_path.write_text(_index_html(feeds, config.site_url), encoding="utf-8")
     written.append(index_path)
+    icon_path = out_dir / "icon.png"
+    icon_path.write_bytes(files("tldr_rss").joinpath("assets/icon.png").read_bytes())
+    written.append(icon_path)
     return written
 
 
@@ -116,6 +120,7 @@ def _index_html(feeds: list[FeedDefinition], site_url: str) -> str:
     )
     return (
         "<!doctype html>\n<meta charset=\"utf-8\">\n<title>TLDR RSS feeds</title>\n"
+        '<link rel="icon" type="image/png" sizes="144x144" href="icon.png">\n'
         "<h1>TLDR RSS feeds</h1>\n<p>One item per article, duplicates and sponsors removed. "
         f"Subscribe to any of these in your reader; <a href=\"articles.json\">articles.json</a> has the raw data.</p>\n"
         f"<ul>\n{rows}\n</ul>\n"

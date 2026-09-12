@@ -45,6 +45,15 @@ def test_item_uses_canonical_url_for_link_and_guid():
     assert item.findtext("pubDate") == "Fri, 11 Sep 2026 00:00:00 +0000"
 
 
+def test_channel_image_uses_site_path_and_matches_channel_metadata():
+    channel = ET.fromstring(_render([])).find("channel")
+    image = channel.find("image")
+    assert image.findtext("url") == "https://x.test/tldr-rss/icon.png"
+    assert image.findtext("title") == channel.findtext("title")
+    assert image.findtext("link") == channel.findtext("link")
+    assert image.findtext("width") == image.findtext("height") == "144"
+
+
 def test_item_description_keeps_blurb_html_and_adds_footer():
     item = ET.fromstring(_render([_article()])).find("channel/item")
     description = item.findtext("description")
