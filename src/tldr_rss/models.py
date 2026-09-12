@@ -20,3 +20,17 @@ class Issue:
     date: date
     url: str
     title: str
+
+
+@dataclass(frozen=True)
+class Article:
+    """One story inside an issue. `url` is exactly as TLDR linked it."""
+
+    title: str
+    url: str
+    blurb_html: str
+    section: str
+    source: Source
+    issue_date: date
+    issue_url: str
+    is_sponsor: bool
