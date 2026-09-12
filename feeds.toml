@@ -1,0 +1,62 @@
+# Sources are processed in this order. When the same article appears in several
+# newsletters, the first one listed wins and the article shows up in that
+# source's feed only. Reorder to change priority; delete a block to drop it.
+
+site_url = "https://nickrwann.github.io/tldr-rss"
+window_days = 14
+
+[[sources]]
+slug = "tech"
+name = "TLDR Tech"
+
+[[sources]]
+slug = "ai"
+name = "TLDR AI"
+
+[[sources]]
+slug = "dev"
+name = "TLDR Web Dev"
+
+[[sources]]
+slug = "devops"
+name = "TLDR DevOps"
+
+[[sources]]
+slug = "hardware"
+name = "TLDR Hardware"
+
+[[sources]]
+slug = "infosec"
+name = "TLDR InfoSec"
+
+[[sources]]
+slug = "data"
+name = "TLDR Data"
+
+[[sources]]
+slug = "design"
+name = "TLDR Design"
+
+[[sources]]
+slug = "product"
+name = "TLDR Product"
+
+[[sources]]
+slug = "founders"
+name = "TLDR Founders"
+
+[[sources]]
+slug = "marketing"
+name = "TLDR Marketing"
+
+[[sources]]
+slug = "fintech"
+name = "TLDR Fintech"
+
+[[sources]]
+slug = "crypto"
+name = "TLDR Crypto"
+
+# Named subsets. Each becomes <name>.xml. all.xml and <slug>.xml are implicit.
+[bundles]
+engineering = ["tech", "ai", "dev", "devops", "hardware", "infosec", "data"]
