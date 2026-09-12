@@ -47,7 +47,28 @@ Edit [`feeds.toml`](feeds.toml): add or remove a newsletter, reorder them to
 change which one "owns" a shared story, or define a bundle. Push to `main`
 and the next run picks it up.
 
+## How it works
+
+Each run fetches the configured newsletters' issue lists, parses recent issue
+pages into articles, removes sponsors and duplicate links, and writes static
+RSS feeds. The default window is 14 calendar days, configured by `window_days`
+in `feeds.toml`. Runs rebuild that window without storing history, so the
+hosted feeds do not grow indefinitely. Weekends need no special handling:
+recent weekday issues remain in the window until they age out.
+
+The first source listed in `feeds.toml` wins when newsletters share an article.
+Each item's RSS GUID is its canonical article URL, allowing readers to recognize
+it across rebuilds. Readers may retain older items after they leave the feed,
+depending on their retention settings.
+
+GitHub Pages serves fixed files; URL query parameters cannot customize a feed.
+Use configured bundles for subsets, or `articles.json` for custom integrations.
+Generated files live in `public/` and are built and deployed by GitHub Actions,
+not committed to the repository.
+
 ## Run locally
+
+Requires Python 3.11 or newer.
 
 ```
 pip install -e ".[dev]"
@@ -60,5 +81,3 @@ python -m tldr_rss --out public/ --window-days 3 --verbose
 1. Fork this repo and set `site_url` in `feeds.toml` to your Pages URL.
 2. In the repo settings, set **Pages → Source** to **GitHub Actions**.
 3. Run the **Publish feeds** workflow once from the Actions tab.
-
-How it works and why it is built this way: see [`CLAUDE.md`](CLAUDE.md).
