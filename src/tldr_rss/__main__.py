@@ -1,4 +1,4 @@
-"""CLI entry point: python -m tldr_rss --out public/"""
+"""CLI entry point: uv run python -m tldr_rss --out public/"""
 
 import argparse
 import logging

@@ -9,7 +9,7 @@ description = "Per-article, de-duplicated RSS feeds for the TLDR newsletters"
 requires-python = ">=3.11"
 dependencies = ["beautifulsoup4>=4.12"]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = ["pytest>=8"]
 
 [tool.setuptools.packages.find]

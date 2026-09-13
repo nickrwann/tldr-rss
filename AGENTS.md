@@ -11,9 +11,11 @@ See [README.md](README.md) for the project overview and subscription links.
   history or a database.
 - Use type hints and frozen dataclasses for data. Prefer the standard library;
   justify new dependencies.
-- Run `python -m pytest` for code changes. Parser tests use saved HTML in
+- Use `uv sync --locked` to install dependencies. Add dependencies with `uv add`
+  (or `uv add --dev`) and commit `uv.lock` alongside `pyproject.toml`.
+- Run `uv run --locked python -m pytest` for code changes. Parser tests use saved HTML in
   `tests/fixtures/`; fake the HTTP callable, not BeautifulSoup.
 - For changes to fetching, parsing, or publishing, also run
-  `python -m tldr_rss --out public/ --verbose` against the live site and check
+  `uv run --locked python -m tldr_rss --out public/ --verbose` against the live site and check
   for skipped sources or empty output.
 - Never commit generated `public/` files.
