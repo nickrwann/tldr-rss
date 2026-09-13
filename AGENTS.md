@@ -2,9 +2,21 @@
 
 See [README.md](README.md) for the project overview and subscription links.
 
-- Keep parsing, deduplication, and RSS rendering pure. Inject network access
-  through the pipeline's `http` callable; keep TLDR-specific URLs and HTML
-  selectors in `src/tldr_rss/tldr.py`.
+## Architecture: Functional Core, Imperative Shell
+
+The functional core transforms data through pure functions: the same inputs
+produce the same outputs, without network or filesystem access. Parsing,
+deduplication, and RSS rendering belong here.
+
+The imperative shell handles configuration, HTTP requests, file writes, and
+CLI execution. `pipeline.py` composes the stages and accepts an `http` callable
+so tests can supply fixtures without making network requests.
+
+Keep TLDR-specific URLs and HTML selectors in `src/tldr_rss/tldr.py`. Pass
+fetched content into parsers; do not fetch from within core functions.
+
+## Working rules
+
 - Preserve deterministic output and source priority from `feeds.toml`.
   Canonical article URLs are RSS GUIDs; changing them can reset reader state.
 - Keep runs stateless: rebuild from the configured window without persistent
