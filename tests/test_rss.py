@@ -42,7 +42,7 @@ def test_item_uses_canonical_url_for_link_and_guid():
     assert item.findtext("link") == "https://openai.com/index/introducing-the-agents-api"
     assert item.findtext("guid") == "https://openai.com/index/introducing-the-agents-api"
     assert item.find("guid").get("isPermaLink") == "true"
-    assert item.findtext("pubDate") == "Fri, 11 Sep 2026 00:00:00 +0000"
+    assert item.findtext("pubDate") == "Fri, 11 Sep 2026 12:00:00 +0000"
 
 
 def test_channel_image_uses_site_path_and_matches_channel_metadata():

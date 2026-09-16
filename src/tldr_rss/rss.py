@@ -57,7 +57,9 @@ def _description(article: Article) -> str:
 
 
 def _rfc822(article: Article) -> str:
-    return format_datetime(datetime.combine(article.issue_date, time(), tzinfo=timezone.utc))
+    # Only the issue date is known. Noon UTC keeps that date in US readers
+    # without making timestamps depend on when the feed is rebuilt.
+    return format_datetime(datetime.combine(article.issue_date, time(12), tzinfo=timezone.utc))
 
 
 def _child(parent: ET.Element, tag: str, text: str, **attrs: str) -> ET.Element:
