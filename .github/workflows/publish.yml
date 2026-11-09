@@ -13,6 +13,8 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  # Lets the keepalive job re-enable this workflow (see below).
+  actions: write
 
 # Never let two deploys race; a queued run just supersedes the previous one.
 concurrency:
@@ -47,3 +49,14 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # GitHub disables scheduled workflows in public repos after 60 days without
+  # commits. Re-enabling the workflow through the API on every run keeps the
+  # schedule alive without adding commits. Independent of build so a failing
+  # build does not stop the keepalive.
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/publish.yml/enable"
+        env:
+          GH_TOKEN: ${{ github.token }}
